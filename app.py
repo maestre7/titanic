@@ -1,8 +1,8 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -59,3 +59,25 @@ prefix='Embarked')], axis=1)
 test_df = pd.concat([test_df, pd.get_dummies(test_df['Embarked'], prefix='Embarked')], 
 axis=1) 
 test_df['Fare'].fillna(test_df['Fare'].dropna().mean(), inplace=True)
+
+variables=['Pclass', 'Age', 'Sex', 'SibSp', 'Parch', 'Fare', 'CabinBool', 'Embarked_C',
+'Embarked_S', 'Embarked_Q']
+X = train_df[variables]
+y = train_df['Survived']
+
+
+X = train_df[['Pclass', 'Age', 'Sex', 'SibSp', 'Parch', 'Fare', 'CabinBool', 'Embarked_C',
+'Embarked_S', 'Embarked_Q]]
+y = train_df[[Survived']]
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=0)
+model = RandomForestClassifier(n_estimators=100, random_state=0)
+model.fit(X_train, y_train)
+
+model.fit(X_train, y_val)
+y_pred = model.predict(X_val)
+accuracy = accuracy_score(y_val, y_pred)
+importances =
+pd.DataFrame({'feature':X_train.columns,'importance':np.round(model.feature_importan
+ces_,3)})
+importances =
+importances.sort_values('importance',ascending=False).set_index('feature')
